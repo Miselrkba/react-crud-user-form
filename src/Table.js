@@ -1,25 +1,26 @@
 import React from "react";
 import { useState } from "react";
 import EditUser from "./EditUser";
+import { nanoid } from "nanoid";
 
 function Table() {
   const usersData = [
     {
-      id: 1,
+      id: nanoid(),
       firstName: "Tania",
       lastName: "floppydiskette",
       email: "dsadsad@gmail.com",
       telephone: "123135",
     },
     {
-      id: 2,
+      id: nanoid(),
       firstName: "Mario",
       lastName: "Jeremy",
       email: "duytuyusad@gmail.com",
       telephone: "123135",
     },
     {
-      id: 3,
+      id: nanoid(),
       firstName: "Robbie",
       lastName: "Lawrel",
       email: "drewrewd@gmail.com",
@@ -37,14 +38,13 @@ function Table() {
   const [users, setUsers] = useState(usersData);
   const [user, setUser] = useState(initialFormState);
   const [editing, setEditing] = useState(false);
-  const [currentUser, setCurrentUser] = useState(initialFormState);
 
   const headers = [
-    "Number",
     "First Name",
     "Last Name",
     "Email",
     "Telephone",
+    "Employee Code",
     "Actions",
   ];
 
@@ -53,11 +53,11 @@ function Table() {
   ));
   const generateUserData = users.map((user) => (
     <tr key={user.id}>
-      <td>{user.id}</td>
       <td>{user.firstName}</td>
       <td>{user.lastName}</td>
       <td>{user.email}</td>
       <td>{user.telephone}</td>
+      <td>{user.id}</td>
       <td>
         <a href="/#" onClick={() => editRow(user)}>
           Edit
@@ -71,7 +71,7 @@ function Table() {
   ));
 
   const addUser = (user) => {
-    user.id = users.length + 1;
+    user.id = nanoid();
     setUsers([...users, user]);
   };
 
@@ -84,6 +84,7 @@ function Table() {
 
   const deleteUser = (id) => {
     setUsers(users.filter((user) => user.id !== id));
+    setEditing(false);
   };
 
   const editRow = (user) => {
@@ -158,7 +159,7 @@ function Table() {
         </div>
       )}
 
-      <table className="table">
+      <table className="table table-dark table-responsive">
         <thead>
           <tr>{generateHeaders}</tr>
         </thead>
