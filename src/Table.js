@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 
 function Table() {
   const usersData = [
@@ -25,23 +26,97 @@ function Table() {
     },
   ];
 
-  const headers = ["Number", "First Name", "Last Name", "Email", "Telephone"];
+  const initialFormState = {
+    id: null,
+    firstName: "",
+    lastName: "",
+    email: "",
+    telephone: "",
+  };
+  const [users, setUsers] = useState(usersData);
+  const [user, setUser] = useState(initialFormState);
+
+  const headers = [
+    "Number",
+    "First Name",
+    "Last Name",
+    "Email",
+    "Telephone",
+    "Actions",
+  ];
 
   const generateHeaders = headers.map((header) => (
     <th key={header}>{header}</th>
   ));
-  const generateUserData = usersData.map((user) => (
+  const generateUserData = users.map((user) => (
     <tr key={user.id}>
       <td>{user.id}</td>
       <td>{user.firstName}</td>
       <td>{user.lastName}</td>
       <td>{user.email}</td>
       <td>{user.telephone}</td>
+      <td>
+        <a href="/#">Edit</a>
+        <br />
+        <a href="/#">Delete</a>
+      </td>
     </tr>
   ));
 
+  const addUser = (user) => {
+    user.id = users.length + 1;
+    setUsers([...users, user]);
+  };
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setUser({ ...user, [name]: value });
+    //setting value of first name, last name, email and telephone to 
+    //input value
+  };
+
   return (
     <div style={{ margin: "2em" }}>
+      <h1>Crud Table</h1>
+      <p>Add new user:</p>
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+          if (!user.firstName || !user.lastName) return;
+          addUser(user);
+          setUser(initialFormState);
+        }}
+      >
+        <label htmlFor="">First Name</label>
+        <input
+          type="text"
+          name="firstName"
+          value={user.firstName}
+          onChange={handleInputChange}
+        />
+        <label htmlFor="">Last Name</label>
+        <input
+          type="text"
+          name="lastName"
+          value={user.lastName}
+          onChange={handleInputChange}
+        />
+        <label htmlFor="">Email</label>
+        <input
+          type="text"
+          name="email"
+          value={user.email}
+          onChange={handleInputChange}
+        />
+        <label htmlFor="">Telephone</label>
+        <input
+          type="text"
+          name="telephone"
+          value={user.telephone}
+          onChange={handleInputChange}
+        />
+        <button>Add new user</button>
+      </form>
       <table className="table">
         <thead>
           <tr>{generateHeaders}</tr>
