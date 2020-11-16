@@ -38,13 +38,14 @@ function Table() {
   const [users, setUsers] = useState(usersData);
   const [user, setUser] = useState(initialFormState);
   const [editing, setEditing] = useState(false);
+  const [currentUser, setCurrentUser] = useState(initialFormState);
 
   const headers = [
     "First Name",
     "Last Name",
     "Email",
     "Telephone",
-    "Employee Code",
+    "Employee Number Code",
     "Actions",
   ];
 
